@@ -3,7 +3,7 @@ input=sys.stdin.readline
 
 N = int(input().rstrip())
 DP = [i for i in range(N+1)] # 모든수를 1의 제곱의 합으로 항의 개수를 맞춤
-
+# DP를 1번부터 저장하면 안됨 0일떄는 0개라고 알려주는 것도 필요해서 0~N+1개로 DP를 설정해야함 계속 틀림
 for i in range(1,N+1): # 이건 계산이구요 
     for j in range(1,i): # 이건 뺴주는 과정인데 궁금하면 물어보시고
         if j*j > i:
