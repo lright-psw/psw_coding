@@ -43,7 +43,8 @@ visited = [0 for _ in range(len(c_map))]
 choice_chiken(0)
 print(rst)
 
-
+#ans = []
+#rst = []
 #치킨집이랑 집이랑 거리 구해주는 함수
 # def find_len(h,c):
 #     chicken_length = abs(h[0]-c[0]) + abs(h[1]-c[1])
