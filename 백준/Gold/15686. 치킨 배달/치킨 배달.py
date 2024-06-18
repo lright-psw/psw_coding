@@ -1,78 +1,53 @@
-# 0은 빈 칸, 1은 집, 2는 치킨집
-# 집 < 2n / m <= 치킨집 <= 13
+N,M = map(int,input().split())
 
-n,m = map(int,input().split())
+min_ans = 99999999
 
-c_map = []
-h_map=[]
-rst = 99999
+home = []
 
-#맵 만들기
-for i in range(n):
-    city = list(map(int,input().split()))
-    for j in range(n):
-        if city[j] == 1:
-            h_map.append((i,j))
-        elif city[j] == 2:
-            c_map.append((i,j))
-            
+chick = []
 
-#치킨집 m개에 맞춰서 고르기
-def choice_chiken(start):
-    global rst
-    #억제기 
-    if sum(visited) == m:
-        cnt = 0
-        for i in range(len(h_map)): #집 하나당
-            h_cnt = 999999 #최소 집이랑 가게 거리
-            for j in range(len(visited)): #가게 거리
-                if visited[j] == 1:
-                    tmp_cnt = abs(h_map[i][0]-c_map[j][0]) + abs(h_map[i][1]-c_map[j][1]) # 지금계산한거 거리
-                    h_cnt = min(h_cnt,tmp_cnt)
-            cnt += h_cnt
-        rst = min(rst,cnt)
-        return 
-    for i in range(start,len(c_map)):
-        if visited[i] == 0:
-            visited[i] = 1
-            choice_chiken(i+1)
-            visited[i] = 0
+for i in range(N): # 집과 치킨의 좌표를 리스트에 넣어준다.
+    row = list(map(int,input().split()))
+
+    for j in range(N):
+        if row[j] == 1:
+            home.append((i,j))
+        elif row[j]==2:
+            chick.append((i,j))
+
+visited = [False] * len(chick)
+
+def dfs(idx,cnt):
+
+    global min_ans
+
+    if cnt == M:
+        # print(visited[:])
+
+        ans = 0
+
+        for i in home: # 집 좌표에 대해 모든 치킨집과의 거리를 구함
+            distance = 9999999 # 거리를 큰 수로 정의
+            for j in range(len(visited)):
+                if visited[j]:
+                    check_num = abs(i[0]-chick[j][0])+abs(i[1]-chick[j][1])
+                    distance = min(distance,check_num) # 각 집에 대해 치킨 거리가 최소인 값을 구함
+            ans +=distance
+        min_ans = min(ans,min_ans)
+
+        return
+
+    for i in range(idx,len(chick)):
+        if not visited[i]:
+
+            visited[i] = True
+            dfs(i+1,cnt+1)
+            visited[i]=False
 
 
-visited = [0 for _ in range(len(c_map))]
-choice_chiken(0)
-print(rst)
 
-#ans = []
-#rst = []
-#치킨집이랑 집이랑 거리 구해주는 함수
-# def find_len(h,c):
-#     chicken_length = abs(h[0]-c[0]) + abs(h[1]-c[1])
-#     return chicken_length
+dfs(0,0)
 
-# #시간초과# #
-#
-#치킨집 m개에 맞춰서 고르기
-# def choice_chiken():
-#     global rst
-#     global cnt
-#     #억제기 
-#     if len(ans) == m:
-#         cnt = 0
-#         # print(" ".join(map(str,ans)))
-#         for i in range(len(h_map)): #집 하나당
-#             h_cnt = math.inf #최소 집이랑 가게 거리
-#             tmp_cnt = 0 # 지금계산한거 거리
-#             for j in ans: #가게 거리
-#                 tmp_cnt = find_len(h_map[i],c_map[j])
-#                 h_cnt = min(h_cnt,tmp_cnt)
-#             cnt += h_cnt
-#         rst = min(rst,cnt)
-#         return 
-#     for i in range(len(c_map)):
-#         if i not in ans and visited[i] == 0:
-#             visited[i] = 1
-#             ans.append(i)
-#             choice_chiken()
-#             visited[i] = 0
-#             ans.pop()
+print(min_ans)
+
+#시간초과라 다른사람 코드는 되나 보려고 가져옴 나중에 지우셈
