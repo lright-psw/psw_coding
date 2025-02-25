@@ -19,13 +19,13 @@ pair<int, int> god[MAX_N];
 vector<Edge> edges;
 double result = 0.0;
 
-// Union-Find: Find with path compression
+// Find
 int find(int x) {
     if (x == parent[x]) return x;
     return parent[x] = find(parent[x]);
 }
 
-// Union-Find: Union by rank
+// Union
 void union_sets(int a, int b) {
     a = find(a);
     b = find(b);
@@ -35,7 +35,7 @@ void union_sets(int a, int b) {
     }
 }
 
-// Euclidean distance calculation
+// 유클리디안 거리 계산
 double euclidean_distance(int x1, int y1, int x2, int y2) {
     return sqrt(1.0 * (x1 - x2) * (x1 - x2) + 1.0 * (y1 - y2) * (y1 - y2));
 }
